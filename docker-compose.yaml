@@ -1,0 +1,62 @@
+version: "3.8"
+
+services:
+  access_node:
+    container_name: access_node
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: ubuntu/Dockerfile
+    ports:
+      - $PORT_ACCESS:22
+    networks:
+      net1:
+        ipv4_address: $NET1_IP_ACCESS
+  agent1:
+    container_name: agent1
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: ubuntu/Dockerfile
+    ports:
+      - $PORT_AGENT1:22
+    networks:
+      net1:
+        ipv4_address: $NET1_IP_AGENT1
+  agent2:
+    container_name: agent2
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: ubuntu/Dockerfile
+    ports:
+      - $PORT_AGENT2:22
+    networks:
+      net1:
+        ipv4_address: $NET1_IP_AGENT2
+  agent3:
+    container_name: agent3 
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: ubuntu/Dockerfile
+    ports:
+      - $PORT_AGENT3:22
+    networks:
+      net1:
+        ipv4_address: $NET1_IP_AGENT3
+networks:
+  net1:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.1.0.0/16"
+          gateway: "10.1.255.254"
