@@ -14,6 +14,8 @@ services:
     networks:
       net1:
         ipv4_address: $NET1_IP_ACCESS
+      net2:
+        ipv4_address: $NET2_IP_ACCESS
   agent1:
     container_name: agent1
     build:
@@ -53,6 +55,45 @@ services:
     networks:
       net1:
         ipv4_address: $NET1_IP_AGENT3
+  agent4:
+    container_name: agent4
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: centos/Dockerfile
+    ports:
+      - $PORT_AGENT4:22
+    networks:
+      net2:
+        ipv4_address: $NET2_IP_AGENT1
+  agent5:
+    container_name: agent5
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: centos/Dockerfile
+    ports:
+      - $PORT_AGENT5:22
+    networks:
+      net2:
+        ipv4_address: $NET2_IP_AGENT2
+  agent6:
+    container_name: agent6
+    build:
+      args:
+        - REMOTE_USER=${REMOTE_USER}
+        - REMOTE_USER_PASSWORD=${REMOTE_USER_PASSWORD}
+      context: .
+      dockerfile: centos/Dockerfile
+    ports:
+      - $PORT_AGENT6:22
+    networks:
+      net2:
+        ipv4_address: $NET2_IP_AGENT3
 networks:
   net1:
     driver: bridge
@@ -60,3 +101,9 @@ networks:
       config:
         - subnet: "10.1.0.0/16"
           gateway: "10.1.255.254"
+  net2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: "10.2.0.0/16"
+          gateway: "10.2.255.254"
